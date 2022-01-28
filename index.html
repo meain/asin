@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>asin</title>
+    <style>
+      :root {
+        --border-grey: #ddd;
+        --background-grey: #f6f6f6;
+        --subtext-grey: #ccc;
+        --page-bg: #ffffff;
+        --page-fg: #000000;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --border-grey: #444;
+          --background-grey: rgba(57, 63, 84, 0.8);
+          --subtext-grey: #888;
+          --page-bg: #000000;
+          --page-fg: #ffffff;
+        }
+      }
+      * {
+        font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono,
+          monospace;
+        box-sizing: border-box;
+      }
+      body {
+        flex-direction: column;
+        padding: 100px;
+        background: var(--page-bg);
+        color: var(--page-fg);
+      }
+      body,
+      .b,
+      .entry,
+      .asin {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      input {
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: none;
+        outline: none;
+        border: 1px solid var(--border-grey);
+        background: var(--background-grey);
+        width: 70%;
+        min-width: 600px;
+        font-size: 1.4rem;
+        color: var(--page-fg);
+      }
+      i {
+        margin-top: 10px;
+        margin-bottom: 30px;
+        color: var(--subtext-grey);
+      }
+      .asin {
+        flex-wrap: wrap;
+        max-width: 1300px
+      }
+      .entry {
+        margin: 10px;
+        flex-direction: column;
+      }
+      .b {
+        margin: 10px;
+        padding: 10px;
+        background: var(--background-grey);
+        border-radius: 5px;
+        text-transform: uppercase; /* not entirely sure if we should have this */
+      }
+      @media screen and (max-width: 600px) {
+        body {
+          padding: 20px;
+        }
+        input {
+          min-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>asin</h1>
+    <input type="text" placeholder="Enter text here.." />
+    <i>Type here to get expansion</i>
+    <div class="asin"></div>
+
+    <script>
+      // We can possibly add others
+      const expansions = {
+        NATO: [
+          'Alpha',
+          'Bravo',
+          'Charlie',
+          'Delta',
+          'Echo',
+          'Foxtrot',
+          'Golf',
+          'Hotel',
+          'India',
+          'Juliett',
+          'Kilo',
+          'Lima',
+          'Mike',
+          'November',
+          'Oscar',
+          'Papa',
+          'Quebec',
+          'Romeo',
+          'Sierra',
+          'Tango',
+          'Uniform',
+          'Victor',
+          'Whiskey',
+          'X-ray',
+          'Yankee',
+          'Zulu',
+        ],
+      }
+
+      function run() {
+        const ibox = document.getElementsByTagName('input')[0]
+        const asin = document.getElementsByClassName('asin')[0]
+        asin.innerHTML = ''
+        const children = ibox.value.split('').map(function (x) {
+          const b = document.createElement('div')
+          b.className = 'b'
+          b.innerText = x
+          const div = document.createElement('div')
+          div.className = 'entry'
+          div.appendChild(b)
+          if (/[a-z]/i.test(x)) {
+            const exp = expansions['NATO'][x.toUpperCase().charCodeAt(0) - 65]
+            const ed = document.createElement('span')
+            ed.className = 'expansion'
+            ed.innerText = exp
+            div.appendChild(ed)
+          }
+          asin.appendChild(div)
+        })
+      }
+
+      window.onload = function () {
+        run()
+        document.getElementsByTagName('input')[0].onkeyup = run
+      }
+    </script>
+  </body>
+</html>
